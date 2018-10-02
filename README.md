@@ -28,37 +28,39 @@ Include the js file directly in your web app using a &lt;script&gt; tag.
 
 ```js
 const params = {
-  apiKey: "ZEROTH_API_KEY"
+  key: 'ZEROTH_API_KEY', // required
+  language: 'eng', // 'eng' or 'kor', default 'eng'
+  finalOnly: false // optional, default false
 };
 
 zeroth = new Zeroth(params);
 
 zeroth.onconnect = () => {
-  // start audio recording
+  // start audio recording or prepare to send audio file
 };
 
 zeroth.ondata = data => {
-  // data contains transcript
+  // transcript in JSON
 };
 
 zeroth.ondisconnect = () => {
-  // stop audio recording
+  // disconnected from zeroth
 };
 
 zeroth.onerror = error => {
-  // stop audio recording
+  // error from zeroth
 };
 
 // send binary audio data
 zeroth.send(data);
 
-// disconnect
+// disconnect (always call this after sending complete audio data)
 zeroth.disconnect();
 ```
 
 ## Example
 
-Check out `example` folder for a sample web app which uses Web Audio APIs for audio recording.
+Check out `example` folder for a sample web app to send audio file and audio record stream (using Web Audio APIs).
 
 ## Development
 
