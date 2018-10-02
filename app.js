@@ -9,14 +9,16 @@ let context = null;
 
 const start = document.querySelector('.start');
 const stop = document.querySelector('.stop');
-const result = document.querySelector('.result');
+const transcript = document.querySelector('.transcript');
+const json = document.querySelector('.json');
+const file = document.querySelector('.file');
 
 stop.disabled = true;
 
 const init = () => {
   if (!navigator.mediaDevices.getUserMedia) {
     start.disabled = true;
-    result.textContent = 'getUserMedia not supported on your browser!';
+    transcript.textContent = 'getUserMedia not supported on your browser!';
     return;
   }
 
@@ -26,7 +28,13 @@ const init = () => {
 
 const onSuccess = stream => {
   start.onclick = () => {
-    const params = { apiKey: 'ZEROTH_API_KEY', debug: true };
+    const params = {
+      key: 'ZEROTH_API_KEY',
+      language: 'kor',
+      // finalOnly: true,
+      debug: true
+    };
+
     zeroth = new Zeroth(params);
 
     zeroth.onconnect = () => {
@@ -34,7 +42,8 @@ const onSuccess = stream => {
     };
 
     zeroth.ondata = data => {
-      result.textContent = data;
+      transcript.textContent = data.transcript;
+      json.textContent = JSON.stringify(data);
     };
 
     zeroth.ondisconnect = () => {
@@ -42,7 +51,7 @@ const onSuccess = stream => {
     };
 
     zeroth.onerror = error => {
-      result.textContent = 'zeroth error: ' + error;
+      transcript.textContent = 'zeroth error: ' + error;
       stopRecording();
     };
   };
@@ -50,10 +59,34 @@ const onSuccess = stream => {
   stop.onclick = () => {
     stopRecording();
   };
+
+  file.onclick = () => {
+    const params = {
+      key: 'ZEROTH_API_KEY',
+      language: 'kor',
+      // finalOnly: true,
+      debug: true
+    };
+
+    zeroth = new Zeroth(params);
+
+    zeroth.onconnect = () => {
+      sendFile();
+    };
+
+    zeroth.ondata = data => {
+      transcript.textContent = data.transcript;
+      json.textContent = JSON.stringify(data);
+    };
+
+    zeroth.onerror = error => {
+      transcript.textContent = 'zeroth error: ' + error;
+    };
+  };
 };
 
 const onError = err => {
-  result.textContent = 'getUserMedia error: ' + err;
+  transcript.textContent = 'getUserMedia error: ' + err;
 };
 
 const startRecording = stream => {
@@ -103,6 +136,17 @@ const convertFloat32ToInt16 = buffer => {
   }
   // return buf.buffer;
   return buf;
+};
+
+const sendFile = () => {
+  const file = document.getElementById('audiofile').files[0];
+  const reader = new FileReader();
+  reader.onload = e => {
+    const buf = e.target.result;
+    zeroth.send(buf);
+    zeroth.disconnect();
+  };
+  reader.readAsArrayBuffer(file);
 };
 
 init();
