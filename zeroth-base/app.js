@@ -15,6 +15,7 @@ const file = document.querySelector('.file');
 
 stop.disabled = true;
 
+const { ZerothBase } = Zeroth;
 const init = () => {
   if (!navigator.mediaDevices.getUserMedia) {
     start.disabled = true;
@@ -29,13 +30,13 @@ const init = () => {
 const onSuccess = stream => {
   start.onclick = () => {
     const params = {
-      key: 'ZEROTH_API_KEY',
+      key: 'JAzst9l1X2C4Cic3aa2f712Xq9rUz53e4f5e111daa47ef87eada1778ccda0e',
       language: 'kor',
       // finalOnly: true,
       debug: true
     };
 
-    zeroth = new Zeroth(params);
+    zeroth = new ZerothBase(params);
 
     zeroth.onconnect = () => {
       startRecording(stream);
@@ -68,7 +69,7 @@ const onSuccess = stream => {
       debug: true
     };
 
-    zeroth = new Zeroth(params);
+    zeroth = new ZerothBase(params);
 
     zeroth.onconnect = () => {
       sendFile();
