@@ -30,13 +30,14 @@ const init = () => {
 const onSuccess = stream => {
   start.onclick = () => {
     const params = {
-      key: 'JAzst9l1X2C4Cic3aa2f712Xq9rUz53e4f5e111daa47ef87eada1778ccda0e',
+      key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
       language: 'kor',
       // finalOnly: true,
       debug: true
     };
 
     zeroth = new ZerothBase(params);
+    zeroth.init(params);
 
     zeroth.onconnect = () => {
       startRecording(stream);
@@ -63,13 +64,14 @@ const onSuccess = stream => {
 
   file.onclick = () => {
     const params = {
-      key: 'ZEROTH_API_KEY',
+      key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
       language: 'kor',
       // finalOnly: true,
       debug: true
     };
 
     zeroth = new ZerothBase(params);
+    zeroth.init(params);
 
     zeroth.onconnect = () => {
       sendFile();
@@ -93,7 +95,11 @@ const onError = err => {
 const startRecording = stream => {
   context = new AudioContext();
   const source = context.createMediaStreamSource(stream);
-  const processor = context.createScriptProcessor(bufferSize, channels, channels);
+  const processor = context.createScriptProcessor(
+    bufferSize,
+    channels,
+    channels
+  );
   source.connect(processor);
   processor.connect(context.destination);
   processor.onaudioprocess = onAudioProcess;
@@ -118,8 +124,13 @@ const onAudioProcess = e => {
 
 const resample = (audioBuffer, targetSampleRate, onComplete) => {
   const channels = audioBuffer.numberOfChannels;
-  const samples = audioBuffer.length * targetSampleRate / audioBuffer.sampleRate;
-  const offlineContext = new OfflineAudioContext(channels, samples, targetSampleRate);
+  const samples =
+    audioBuffer.length * targetSampleRate / audioBuffer.sampleRate;
+  const offlineContext = new OfflineAudioContext(
+    channels,
+    samples,
+    targetSampleRate
+  );
   const bufferSource = offlineContext.createBufferSource();
   bufferSource.buffer = audioBuffer;
   bufferSource.connect(offlineContext.destination);
@@ -143,9 +154,19 @@ const sendFile = () => {
   const file = document.getElementById('audiofile').files[0];
   const reader = new FileReader();
   reader.onload = e => {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const buf = e.target.result;
-    zeroth.send(buf);
-    zeroth.disconnect();
+    console.log(buf);
+    audioCtx.decodeAudioData(buf).then(audioBuffer => {
+      resample(audioBuffer, sampleRate, buffer => {
+        const left = buffer.getChannelData(0);
+        const buf = convertFloat32ToInt16(left);
+        zeroth.send(buf);
+      });
+    });
+
+    // zeroth.send(buf);
+    // zeroth.disconnect();
   };
   reader.readAsArrayBuffer(file);
 };

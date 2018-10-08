@@ -1,29 +1,21 @@
-'use strict';
-
-let zeroth = null;
-let context = null;
-
 const start = document.querySelector('.start');
 const stop = document.querySelector('.stop');
 const transcript = document.querySelector('.transcript');
 const json = document.querySelector('.json');
-
 stop.disabled = true;
 
-const { ZerothMic } = Zeroth;
+const params = {
+  key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
+  language: 'kor',
+  finalOnly: false,
+  ws: false,
+  debug: true
+};
 
-const init = () => {
-  const params = {
-    key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
-    language: 'kor',
-    // ws: true,
-    debug: true
-  };
-  zeroth = new ZerothMic(params);
-  zeroth
-    .initRecording()
-    .then(onSuccess)
-    .catch(onError);
+const zeroth = new Zeroth.ZerothMic(params);
+
+const onError = err => {
+  transcript.textContent = 'getUserMedia error: ' + err;
 };
 
 const onSuccess = () => {
@@ -38,13 +30,12 @@ const onSuccess = () => {
   };
 
   zeroth.ondisconnect = () => {
-    zeroth.stopRecording();
+    start.disabled = false;
+    stop.disabled = true;
   };
 
   zeroth.onerror = error => {
     transcript.textContent = 'zeroth error: ' + error;
-    start.disabled = false;
-    stop.disabled = true;
     zeroth.stopRecording();
   };
 
@@ -53,14 +44,11 @@ const onSuccess = () => {
   };
 
   stop.onclick = () => {
-    start.disabled = false;
-    stop.disabled = true;
     zeroth.stopRecording();
   };
 };
 
-const onError = err => {
-  transcript.textContent = 'getUserMedia error: ' + err;
-};
-
-init();
+zeroth
+  .initRecording()
+  .then(onSuccess)
+  .catch(onError);
