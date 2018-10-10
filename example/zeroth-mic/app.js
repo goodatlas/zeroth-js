@@ -30,7 +30,6 @@ const onSuccess = () => {
 
   zeroth.ondisconnect = () => {
     start.disabled = false;
-    stop.disabled = true;
   };
 
   zeroth.onerror = error => {
@@ -49,4 +48,5 @@ start.onclick = () => {
 
 stop.onclick = () => {
   zeroth.stop();
+  stop.disabled = true;
 };
