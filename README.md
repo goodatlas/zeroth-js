@@ -13,7 +13,7 @@ zeroth-js is a browser-based JavaScript client library for [Zeroth ASR](https://
   - It's extend of ZerothBase with microphone recording function.
   - You can use real-time STT easily.
 
-- [ZerothFile](#zerothfile)
+- [ZerothFile](#zerothfile)(Working in progress)
   - It's extend of ZerothBase with sending file function.
   - You can transcribed text via sending audio file to zeroth.
 
@@ -65,6 +65,8 @@ var ZerothFile = Zeroth.ZerothFile;
 # Usage
 ## ZerothBase
 > Just help you to connect with Zeroth.<br/>You should implement functions such as recording stuffs, sending file stuffs.<br/>But You can customize yourself.
+
+([Example](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-base))
 ```js
 const params = {
     key: 'YOUR_API_KEY', // required. you can get your api key in dashboard.
@@ -110,6 +112,8 @@ zeroth.disconnect();
 It support browser which support [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia), [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext),
 [OfflineAudioContext](https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext).
 You can check caniuse [here](https://caniuse.com/#search=Web%20Audio%20API).
+
+([Example](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-mic))
 ```js
 const params = {
     key: 'YOUR_API_KEY', // required. you can get your api key in dashboard.
@@ -152,11 +156,16 @@ zeroth.onerror = error => {
 zeroth.stopRecording();
 ```
 
-## ZerothFile
+## ZerothFile (Working in progress)
 >It's extend of ZerothBase with sending file function.<br/>You can transcribed text via sending audio file to zeroth.
 
 You must send audio file. if you are using `<input type="file">` tag, you can add `accept="audio/*"` attribute.
 
+It support browser which support [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext),
+[OfflineAudioContext](https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext).
+You can check caniuse [here](https://caniuse.com/#search=Web%20Audio%20API).
+
+([Example](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-file))
 ```js
 const params = {
     key: 'YOUR_API_KEY', // required. you can get your api key in dashboard.
@@ -188,6 +197,10 @@ zeroth.onerror = error => {
 # Example
 
 Check out `example` folder for a sample web app to send audio file and audio record stream (using Web Audio APIs).
+
+- [ZerothBase](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-base)
+- [ZerothFile](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-mic)
+- [ZerothFile](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-file)
 
 # Development
 
