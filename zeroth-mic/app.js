@@ -5,7 +5,7 @@ const json = document.querySelector('.json');
 stop.disabled = true;
 
 const params = {
-  key: 'YOUR_API_KEY',
+  key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
   language: 'kor',
   debug: true
 };
@@ -30,6 +30,7 @@ const onSuccess = () => {
   zeroth.ondisconnect = () => {
     start.disabled = false;
     stop.disabled = true;
+    zeroth.stopRecording();
   };
 
   zeroth.onerror = error => {
