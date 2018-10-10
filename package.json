@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Zeroth JavaScript library",
   "private": true,
-  "main": "./dist/zeroth.commonjs2.js",
+  "main": "./dist/zeroth.cjs.js",
+  "module": "./dist/zeroth.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
@@ -12,14 +13,18 @@
   "author": "Vinay",
   "license": "ISC",
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "@babel/core": "^7.1.2",
     "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^2.0.0-alpha.20",
     "eslint": "^4.19.1",
     "eslint-plugin-prettier": "^2.6.0",
     "prettier": "1.11.1",
+    "rollup": "^0.66.6",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14"
   },
