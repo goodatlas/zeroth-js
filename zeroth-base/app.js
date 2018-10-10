@@ -30,7 +30,7 @@ const init = () => {
 const onSuccess = stream => {
   start.onclick = () => {
     const params = {
-      key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
+      key: 'YOUR_API_KEY',
       language: 'kor',
       // finalOnly: true,
       debug: true
@@ -64,7 +64,7 @@ const onSuccess = stream => {
 
   file.onclick = () => {
     const params = {
-      key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
+      key: 'YOUR_API_KEY',
       language: 'kor',
       // finalOnly: true,
       debug: true
@@ -95,11 +95,7 @@ const onError = err => {
 const startRecording = stream => {
   context = new AudioContext();
   const source = context.createMediaStreamSource(stream);
-  const processor = context.createScriptProcessor(
-    bufferSize,
-    channels,
-    channels
-  );
+  const processor = context.createScriptProcessor(bufferSize, channels, channels);
   source.connect(processor);
   processor.connect(context.destination);
   processor.onaudioprocess = onAudioProcess;
@@ -124,13 +120,8 @@ const onAudioProcess = e => {
 
 const resample = (audioBuffer, targetSampleRate, onComplete) => {
   const channels = audioBuffer.numberOfChannels;
-  const samples =
-    audioBuffer.length * targetSampleRate / audioBuffer.sampleRate;
-  const offlineContext = new OfflineAudioContext(
-    channels,
-    samples,
-    targetSampleRate
-  );
+  const samples = audioBuffer.length * targetSampleRate / audioBuffer.sampleRate;
+  const offlineContext = new OfflineAudioContext(channels, samples, targetSampleRate);
   const bufferSource = offlineContext.createBufferSource();
   bufferSource.buffer = audioBuffer;
   bufferSource.connect(offlineContext.destination);
@@ -146,7 +137,6 @@ const convertFloat32ToInt16 = buffer => {
   while (l--) {
     buf[l] = Math.min(1, buffer[l]) * 0x7fff;
   }
-  // return buf.buffer;
   return buf;
 };
 
@@ -156,7 +146,6 @@ const sendFile = () => {
   reader.onload = e => {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const buf = e.target.result;
-    console.log(buf);
     audioCtx.decodeAudioData(buf).then(audioBuffer => {
       resample(audioBuffer, sampleRate, buffer => {
         const left = buffer.getChannelData(0);
@@ -164,9 +153,6 @@ const sendFile = () => {
         zeroth.send(buf);
       });
     });
-
-    // zeroth.send(buf);
-    // zeroth.disconnect();
   };
   reader.readAsArrayBuffer(file);
 };
