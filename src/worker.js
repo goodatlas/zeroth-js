@@ -1,7 +1,17 @@
-const config = require('./config');
-
 let debug = () => {};
 let sock = null;
+const config = {
+  wsServerAddr: '13.125.232.133',
+  wsServerPort: 3180,
+  wssServerAddr: 'zeroth-test.goodatlas.com',
+  wssServerPort: 2087,
+  sampleRate: 44100,
+  defaultParams: {
+    language: 'eng',
+    finalOnly: false,
+    ws: false
+  }
+};
 
 module.exports = function worker(self) {
   self.onmessage = e => {

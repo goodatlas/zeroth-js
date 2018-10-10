@@ -143,11 +143,21 @@ define(['exports'], function (exports) { 'use strict';
         exports: {}
       }, r.exports), r.exports;
     }(function (module, exports) {
-      var config = require('./config');
-
       var debug = function debug() {};
 
       var sock = null;
+      var config = {
+        wsServerAddr: '13.125.232.133',
+        wsServerPort: 3180,
+        wssServerAddr: 'zeroth-test.goodatlas.com',
+        wssServerPort: 2087,
+        sampleRate: 44100,
+        defaultParams: {
+          language: 'eng',
+          finalOnly: false,
+          ws: false
+        }
+      };
 
       module.exports = function worker(self) {
         self.onmessage = function (e) {

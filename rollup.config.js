@@ -7,14 +7,14 @@ export default [
   {
     input: 'src/index.js',
     plugins: [
-      webworkify({
-        pattern: '**/*.worker.js'
-      }),
       babel({
         exclude: 'node_modules/**',
         babelrc: false,
         presets: [['env', { modules: false }]],
-        plugins: ['transform-class-properties']
+        plugins: ['transform-class-properties', '@babel/plugin-syntax-dynamic-import']
+      }),
+      webworkify({
+        pattern: '**/*.worker.js'
       }),
       resolve(),
       commonjs({
@@ -44,14 +44,14 @@ export default [
   {
     input: 'src/index.js',
     plugins: [
-      webworkify({
-        pattern: '**/*.worker.js'
-      }),
       babel({
         exclude: 'node_modules/**',
         babelrc: false,
         presets: [['env', { modules: false }]],
-        plugins: ['transform-class-properties']
+        plugins: ['transform-class-properties', '@babel/plugin-syntax-dynamic-import']
+      }),
+      webworkify({
+        pattern: '**/*.worker.js'
       }),
       resolve()
     ],
