@@ -1,11 +1,9 @@
-'use strict';
-
-import config from './config';
+const config = require('./config');
 
 let debug = () => {};
 let sock = null;
 
-export default function worker(self) {
+module.exports = function worker(self) {
   self.onmessage = e => {
     switch (e.data.command) {
       case 'init':
@@ -19,7 +17,7 @@ export default function worker(self) {
         break;
     }
   };
-}
+};
 
 class Socket {
   constructor(params) {
@@ -44,7 +42,13 @@ class Socket {
   }
 
   connect = () => {
-    const { wsServerAddr, wsServerPort, wssServerAddr, wssServerPort, sampleRate } = config;
+    const {
+      wsServerAddr,
+      wsServerPort,
+      wssServerAddr,
+      wssServerPort,
+      sampleRate
+    } = config;
     const { key, language, finalOnly, ws } = this.params;
     const contentType = `audio/x-raw,+layout=(string)interleaved,+rate=(int)${sampleRate},+format=(string)S16LE,+channels=(int)1`;
     const query = `content-type=${contentType}&key=${key}&language=${language}&final-only=${finalOnly}`;

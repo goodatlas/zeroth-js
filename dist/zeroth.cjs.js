@@ -48,207 +48,240 @@ function _possibleConstructorReturn(self, call) {
   return _assertThisInitialized(self);
 }
 
-function unwrapExports (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x.default : x;
-}
-
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
-
-var webworkifyWebpack = createCommonjsModule(function (module) {
-function webpackBootstrapFunc (modules) {
-/******/  // The module cache
-/******/  var installedModules = {};
-
-/******/  // The require function
-/******/  function __webpack_require__(moduleId) {
-
-/******/    // Check if module is in cache
-/******/    if(installedModules[moduleId])
-/******/      return installedModules[moduleId].exports;
-
-/******/    // Create a new module (and put it into the cache)
-/******/    var module = installedModules[moduleId] = {
-/******/      i: moduleId,
-/******/      l: false,
-/******/      exports: {}
-/******/    };
-
-/******/    // Execute the module function
-/******/    modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
-/******/    // Flag the module as loaded
-/******/    module.l = true;
-
-/******/    // Return the exports of the module
-/******/    return module.exports;
-/******/  }
-
-/******/  // expose the modules object (__webpack_modules__)
-/******/  __webpack_require__.m = modules;
-
-/******/  // expose the module cache
-/******/  __webpack_require__.c = installedModules;
-
-/******/  // identity function for calling harmony imports with the correct context
-/******/  __webpack_require__.i = function(value) { return value; };
-
-/******/  // define getter function for harmony exports
-/******/  __webpack_require__.d = function(exports, name, getter) {
-/******/    if(!__webpack_require__.o(exports, name)) {
-/******/      Object.defineProperty(exports, name, {
-/******/        configurable: false,
-/******/        enumerable: true,
-/******/        get: getter
-/******/      });
-/******/    }
-/******/  };
-
-/******/  // define __esModule on exports
-/******/  __webpack_require__.r = function(exports) {
-/******/    Object.defineProperty(exports, '__esModule', { value: true });
-/******/  };
-
-/******/  // getDefaultExport function for compatibility with non-harmony modules
-/******/  __webpack_require__.n = function(module) {
-/******/    var getter = module && module.__esModule ?
-/******/      function getDefault() { return module['default']; } :
-/******/      function getModuleExports() { return module; };
-/******/    __webpack_require__.d(getter, 'a', getter);
-/******/    return getter;
-/******/  };
-
-/******/  // Object.prototype.hasOwnProperty.call
-/******/  __webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
-/******/  // __webpack_public_path__
-/******/  __webpack_require__.p = "/";
-
-/******/  // on error function for async loading
-/******/  __webpack_require__.oe = function(err) { console.error(err); throw err; };
-
-  var f = __webpack_require__(__webpack_require__.s = ENTRY_MODULE);
-  return f.default || f // try to call default if defined to also support babel esmodule exports
-}
-
-var moduleNameReqExp = '[\\.|\\-|\\+|\\w|\/|@]+';
-var dependencyRegExp = '\\((\/\\*.*?\\*\/)?\s?.*?(' + moduleNameReqExp + ').*?\\)'; // additional chars when output.pathinfo is true
-
-// http://stackoverflow.com/a/2593661/130442
-function quoteRegExp (str) {
-  return (str + '').replace(/[.?*+^$[\]\\(){}|-]/g, '\\$&')
-}
-
-function getModuleDependencies (sources, module, queueName) {
-  var retval = {};
-  retval[queueName] = [];
-
-  var fnString = module.toString();
-  var wrapperSignature = fnString.match(/^function\s?\(\w+,\s*\w+,\s*(\w+)\)/);
-  if (!wrapperSignature) return retval
-  var webpackRequireName = wrapperSignature[1];
-
-  // main bundle deps
-  var re = new RegExp('(\\\\n|\\W)' + quoteRegExp(webpackRequireName) + dependencyRegExp, 'g');
-  var match;
-  while ((match = re.exec(fnString))) {
-    if (match[3] === 'dll-reference') continue
-    retval[queueName].push(match[3]);
-  }
-
-  // dll deps
-  re = new RegExp('\\(' + quoteRegExp(webpackRequireName) + '\\("(dll-reference\\s(' + moduleNameReqExp + '))"\\)\\)' + dependencyRegExp, 'g');
-  while ((match = re.exec(fnString))) {
-    if (!sources[match[2]]) {
-      retval[queueName].push(match[1]);
-      sources[match[2]] = __webpack_require__(match[1]).m;
-    }
-    retval[match[2]] = retval[match[2]] || [];
-    retval[match[2]].push(match[4]);
-  }
-
-  return retval
-}
-
-function hasValuesInQueues (queues) {
-  var keys = Object.keys(queues);
-  return keys.reduce(function (hasValues, key) {
-    return hasValues || queues[key].length > 0
-  }, false)
-}
-
-function getRequiredModules (sources, moduleId) {
-  var modulesQueue = {
-    main: [moduleId]
-  };
-  var requiredModules = {
-    main: []
-  };
-  var seenModules = {
-    main: {}
-  };
-
-  while (hasValuesInQueues(modulesQueue)) {
-    var queues = Object.keys(modulesQueue);
-    for (var i = 0; i < queues.length; i++) {
-      var queueName = queues[i];
-      var queue = modulesQueue[queueName];
-      var moduleToCheck = queue.pop();
-      seenModules[queueName] = seenModules[queueName] || {};
-      if (seenModules[queueName][moduleToCheck] || !sources[queueName][moduleToCheck]) continue
-      seenModules[queueName][moduleToCheck] = true;
-      requiredModules[queueName] = requiredModules[queueName] || [];
-      requiredModules[queueName].push(moduleToCheck);
-      var newModules = getModuleDependencies(sources, sources[queueName][moduleToCheck], queueName);
-      var newModulesKeys = Object.keys(newModules);
-      for (var j = 0; j < newModulesKeys.length; j++) {
-        modulesQueue[newModulesKeys[j]] = modulesQueue[newModulesKeys[j]] || [];
-        modulesQueue[newModulesKeys[j]] = modulesQueue[newModulesKeys[j]].concat(newModules[newModulesKeys[j]]);
-      }
-    }
-  }
-
-  return requiredModules
-}
-
-module.exports = function (moduleId, options) {
-  options = options || {};
-  var sources = {
-    main: __webpack_modules__
-  };
-
-  var requiredModules = options.all ? { main: Object.keys(sources) } : getRequiredModules(sources, moduleId);
-
-  var src = '';
-
-  Object.keys(requiredModules).filter(function (m) { return m !== 'main' }).forEach(function (module) {
-    var entryModule = 0;
-    while (requiredModules[module][entryModule]) {
-      entryModule++;
-    }
-    requiredModules[module].push(entryModule);
-    sources[module][entryModule] = '(function(module, exports, __webpack_require__) { module.exports = __webpack_require__; })';
-    src = src + 'var ' + module + ' = (' + webpackBootstrapFunc.toString().replace('ENTRY_MODULE', JSON.stringify(entryModule)) + ')({' + requiredModules[module].map(function (id) { return '' + JSON.stringify(id) + ': ' + sources[module][id].toString() }).join(',') + '});\n';
-  });
-
-  src = src + '(' + webpackBootstrapFunc.toString().replace('ENTRY_MODULE', JSON.stringify(moduleId)) + ')({' + requiredModules.main.map(function (id) { return '' + JSON.stringify(id) + ': ' + sources.main[id].toString() }).join(',') + '})(self);';
-
-  var blob = new window.Blob([src], { type: 'text/javascript' });
-  if (options.bare) { return blob }
-
-  var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-
-  var workerUrl = URL.createObjectURL(blob);
-  var worker = new window.Worker(workerUrl);
-  worker.objectURL = workerUrl;
-
-  return worker
+/*! rollup-plugin-webworkify/workerhelper.js v0.0.4 | MIT Licensed | Allex Wang <allex.wxn@gmail.com> */
+var win = window, BlobBuilder = win.BlobBuilder || win.WebKitBlobBuilder || win.MozBlobBuilder || win.MSBlobBuilder, URL = win.URL || win.webkitURL || win.mozURL || win.msURL, SCRIPT_TYPE = "application/javascript", TARGET = "undefined" == typeof Symbol ? "__t" + +new Date() : Symbol(), Worker = win.Worker, nextTick = win.setImmediate || function(e) {
+  return setTimeout(e, 1);
 };
-});
 
-var work = unwrapExports(webworkifyWebpack);
-var webworkifyWebpack_1 = webworkifyWebpack.work;
+function workerCtor(e, t) {
+  return function r(n) {
+    var o = this;
+    if (!(o instanceof r)) return new r(n);
+    if (!t) return new Worker(e);
+    if (Worker && !n) {
+      var i = createSourceObject(';(function(f){f&&new(f.default?f["default"]:f)(self)}((' + t.toString() + ")()))"), a = new Worker(i);
+      return URL.revokeObjectURL(i), o[TARGET] = a;
+    }
+    var c = new WorkerEmitter({
+      close: function() {
+        this.destroy();
+      }
+    }, o);
+    Object.assign(new WorkerEmitter(o, c), {
+      isThisThread: !0,
+      terminate: function() {
+        c.close(), this.destroy();
+      }
+    }), t().call(c, c);
+  };
+}
+
+function WorkerEmitter(e, t) {
+  var r = Object.create(null);
+  return e.onmessage = null, e.addEventListener = function(e, t) {
+    var n = r[e] || (r[e] = []);
+    ~n.indexOf(t) || n.push(t);
+  }, e.removeEventListener = function(e, t) {
+    var n, o = r[e];
+    o && -1 !== (n = o.indexOf(t)) && (o.splice(n, 1), o.length || delete r[e]);
+  }, e.postMessage = function(r) {
+    nextTick(function() {
+      var n = r;
+      if (t.onmessage) try {
+        t.onmessage({
+          data: n,
+          target: e
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      t.emit("message", {
+        type: "message",
+        data: n,
+        target: e,
+        timeStamp: +new Date()
+      });
+    });
+  }, e.emit = function(t, n) {
+    var o = r[t];
+    o && o.forEach(function(t, r) {
+      return t.call(e, n);
+    });
+  }, e.destroy = function() {
+    Object.keys(r).forEach(function(e) {
+      var t = r[e];
+      t && (t.length = 0, delete r[e]);
+    }), r = null;
+  }, e;
+}
+
+if (Worker) {
+  var testWorker, objURL = createSourceObject("self.onmessage = function () {}"), testArray = new Uint8Array(1);
+  try {
+    if (/(?:Trident|Edge)\/(?:[567]|12)/i.test(navigator.userAgent)) throw new Error("Not available");
+    (testWorker = new Worker(objURL)).postMessage(testArray, [ testArray.buffer ]);
+  } catch (e) {
+    Worker = null;
+  } finally {
+    URL.revokeObjectURL(objURL), testWorker && testWorker.terminate();
+  }
+}
+
+function createSourceObject(e) {
+  var t = SCRIPT_TYPE;
+  try {
+    return URL.createObjectURL(new Blob([ e ], {
+      type: t
+    }));
+  } catch (n) {
+    var r = new BlobBuilder();
+    return r.append(e), URL.createObjectURL(r.getBlob(t));
+  }
+}
+
+var Worker$1 = workerCtor('worker#./worker.js', function () {
+  return function (e, r) {
+    return e(r = {
+      exports: {}
+    }, r.exports), r.exports;
+  }(function (module, exports) {
+    var config = require('./config');
+
+    var debug = function debug() {};
+
+    var sock = null;
+
+    module.exports = function worker(self) {
+      self.onmessage = function (e) {
+        switch (e.data.command) {
+          case 'init':
+            sock = new Socket(e.data.params);
+            break;
+
+          case 'disconnect':
+            sock.disconnect();
+            break;
+
+          case 'send':
+            sock.send(e.data.data);
+            break;
+        }
+      };
+    };
+
+    var Socket = function Socket(params) {
+      _classCallCheck(this, Socket);
+
+      _initialiseProps.call(this);
+
+      if (!params || !params.key) {
+        postMessage({
+          command: 'onerror',
+          error: 'API key missing'
+        });
+        return;
+      }
+
+      if (params.debug) {
+        debug = function debug() {
+          var _console;
+
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          return (_console = console).log.apply(_console, ['[zerothjs:debug]'].concat(args));
+        };
+      }
+
+      var _config$defaultParams = config.defaultParams,
+          language = _config$defaultParams.language,
+          finalOnly = _config$defaultParams.finalOnly,
+          ws = _config$defaultParams.ws;
+      this.params = {
+        key: params.key,
+        language: params.language || language,
+        finalOnly: params.finalOnly || finalOnly,
+        ws: params.ws || ws
+      };
+      this.ws = null;
+      this.connect();
+    };
+
+    var _initialiseProps = function _initialiseProps() {
+      var _this = this;
+
+      this.connect = function () {
+        var wsServerAddr = config.wsServerAddr,
+            wsServerPort = config.wsServerPort,
+            wssServerAddr = config.wssServerAddr,
+            wssServerPort = config.wssServerPort,
+            sampleRate = config.sampleRate;
+        var _this$params = _this.params,
+            key = _this$params.key,
+            language = _this$params.language,
+            finalOnly = _this$params.finalOnly,
+            ws = _this$params.ws;
+        var contentType = "audio/x-raw,+layout=(string)interleaved,+rate=(int)".concat(sampleRate, ",+format=(string)S16LE,+channels=(int)1");
+        var query = "content-type=".concat(contentType, "&key=").concat(key, "&language=").concat(language, "&final-only=").concat(finalOnly);
+        var uri = ws ? "ws://".concat(wsServerAddr, ":").concat(wsServerPort, "/client/ws/speech?").concat(query) : "wss://".concat(wssServerAddr, ":").concat(wssServerPort, "/client/ws/speech?").concat(query);
+        debug('uri', uri);
+        _this.ws = new WebSocket(uri);
+
+        _this.ws.onopen = function () {
+          postMessage({
+            command: 'onconnect'
+          });
+        };
+
+        _this.ws.onerror = function (e) {
+          // TODO handle error codes
+          debug('websocket error', e.code, e.reason, e.message);
+          postMessage({
+            command: 'onerror',
+            error: e.message
+          });
+        };
+
+        _this.ws.onclose = function (e) {
+          debug('websocket closed', e.code, e.reason, e.message);
+          _this.ws = null;
+          postMessage({
+            command: 'ondisconnect'
+          });
+        };
+
+        _this.ws.onmessage = function (e) {
+          // debug('received data', e.data);
+          postMessage({
+            command: 'ondata',
+            data: JSON.parse(e.data)
+          });
+        };
+      };
+
+      this.send = function (data) {
+        if (!_this.ws) return;
+
+        try {
+          _this.ws.send(data);
+        } catch (e) {
+          debug('websocket send data error', e.code, e.reason, e.message);
+          postMessage({
+            command: 'onerror',
+            error: e.message
+          });
+
+          _this.ws.close();
+        }
+      };
+
+      this.disconnect = function () {
+        _this.send('EOS');
+      };
+    };
+  });
+});
 
 var worker = null;
 
@@ -258,7 +291,7 @@ var ZerothBase = function ZerothBase(params) {
   _classCallCheck(this, ZerothBase);
 
   this.init = function () {
-    worker = work(require.resolve('./worker.js'));
+    worker = new Worker$1();
     worker.postMessage({
       command: 'init',
       params: _this.params

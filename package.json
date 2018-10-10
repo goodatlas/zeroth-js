@@ -9,7 +9,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
   },
-  "keywords": ["zeroth", "javascript", "speech", "audio"],
+  "keywords": [
+    "zeroth",
+    "javascript",
+    "speech",
+    "audio"
+  ],
   "author": "Vinay",
   "license": "ISC",
   "devDependencies": {
@@ -25,6 +30,7 @@
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-webworkify": "0.0.4",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14"
   },
