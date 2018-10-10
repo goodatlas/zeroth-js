@@ -125,8 +125,7 @@ const params = {
 
 zeroth = new ZerothMic(params);
 
-// initialize Zeroth
-zeroth.initRecording()
+zeroth.start() // try to start recording
     .then(() => {
         console.log('Successfully initialized recording');
         // what you want to do after initialize recording
@@ -153,7 +152,7 @@ zeroth.onerror = error => {
 };
 
 // stop recording (it will stop recording and call zeroth.disconnect() )
-zeroth.stopRecording();
+zeroth.stop();
 ```
 
 ## ZerothFile (Working in progress)
