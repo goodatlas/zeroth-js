@@ -3,17 +3,12 @@
   "version": "0.1.0",
   "description": "Zeroth JavaScript library",
   "private": true,
-  "main": "dist/index.js",
+  "main": "./dist/zeroth.commonjs2.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack lib/index.js"
+    "build": "webpack"
   },
-  "keywords": [
-    "zeroth",
-    "javascript",
-    "speech",
-    "audio"
-  ],
+  "keywords": ["zeroth", "javascript", "speech", "audio"],
   "author": "Vinay",
   "license": "ISC",
   "devDependencies": {
