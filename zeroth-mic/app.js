@@ -30,24 +30,22 @@ const onSuccess = () => {
   zeroth.ondisconnect = () => {
     start.disabled = false;
     stop.disabled = true;
-    zeroth.stopRecording();
+    zeroth.stop();
   };
 
   zeroth.onerror = error => {
     transcript.textContent = 'zeroth error: ' + error;
-    zeroth.stopRecording();
-  };
-
-  start.onclick = () => {
-    zeroth.startRecording();
-  };
-
-  stop.onclick = () => {
-    zeroth.stopRecording();
+    zeroth.stop();
   };
 };
 
-zeroth
-  .initRecording()
-  .then(onSuccess)
-  .catch(onError);
+start.onclick = () => {
+  zeroth
+    .start()
+    .then(onSuccess)
+    .catch(onError);
+};
+
+stop.onclick = () => {
+  zeroth.stop();
+};
