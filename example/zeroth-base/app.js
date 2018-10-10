@@ -15,6 +15,7 @@ const file = document.querySelector('.file');
 
 stop.disabled = true;
 
+const { ZerothBase } = Zeroth;
 const init = () => {
   if (!navigator.mediaDevices.getUserMedia) {
     start.disabled = true;
@@ -29,13 +30,14 @@ const init = () => {
 const onSuccess = stream => {
   start.onclick = () => {
     const params = {
-      key: 'ZEROTH_API_KEY',
+      key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
       language: 'kor',
       // finalOnly: true,
       debug: true
     };
 
-    zeroth = new Zeroth(params);
+    zeroth = new ZerothBase(params);
+    zeroth.init();
 
     zeroth.onconnect = () => {
       startRecording(stream);
@@ -62,13 +64,14 @@ const onSuccess = stream => {
 
   file.onclick = () => {
     const params = {
-      key: 'ZEROTH_API_KEY',
+      key: 'YOUR_API_KEY',
       language: 'kor',
       // finalOnly: true,
       debug: true
     };
 
-    zeroth = new Zeroth(params);
+    zeroth = new ZerothBase(params);
+    zeroth.init();
 
     zeroth.onconnect = () => {
       sendFile();
@@ -134,7 +137,6 @@ const convertFloat32ToInt16 = buffer => {
   while (l--) {
     buf[l] = Math.min(1, buffer[l]) * 0x7fff;
   }
-  // return buf.buffer;
   return buf;
 };
 
@@ -142,9 +144,15 @@ const sendFile = () => {
   const file = document.getElementById('audiofile').files[0];
   const reader = new FileReader();
   reader.onload = e => {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const buf = e.target.result;
-    zeroth.send(buf);
-    zeroth.disconnect();
+    audioCtx.decodeAudioData(buf).then(audioBuffer => {
+      resample(audioBuffer, sampleRate, buffer => {
+        const left = buffer.getChannelData(0);
+        const buf = convertFloat32ToInt16(left);
+        zeroth.send(buf);
+      });
+    });
   };
   reader.readAsArrayBuffer(file);
 };
