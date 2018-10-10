@@ -1,19 +1,9 @@
+import config from './config';
+
 let debug = () => {};
 let sock = null;
-const config = {
-  wsServerAddr: '13.125.232.133',
-  wsServerPort: 3180,
-  wssServerAddr: 'zeroth-test.goodatlas.com',
-  wssServerPort: 2087,
-  sampleRate: 44100,
-  defaultParams: {
-    language: 'eng',
-    finalOnly: false,
-    ws: false
-  }
-};
 
-module.exports = function worker(self) {
+export default function worker(self) {
   self.onmessage = e => {
     switch (e.data.command) {
       case 'init':
@@ -27,7 +17,7 @@ module.exports = function worker(self) {
         break;
     }
   };
-};
+}
 
 class Socket {
   constructor(params) {
@@ -52,13 +42,7 @@ class Socket {
   }
 
   connect = () => {
-    const {
-      wsServerAddr,
-      wsServerPort,
-      wssServerAddr,
-      wssServerPort,
-      sampleRate
-    } = config;
+    const { wsServerAddr, wsServerPort, wssServerAddr, wssServerPort, sampleRate } = config;
     const { key, language, finalOnly, ws } = this.params;
     const contentType = `audio/x-raw,+layout=(string)interleaved,+rate=(int)${sampleRate},+format=(string)S16LE,+channels=(int)1`;
     const query = `content-type=${contentType}&key=${key}&language=${language}&final-only=${finalOnly}`;

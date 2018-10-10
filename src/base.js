@@ -1,6 +1,6 @@
 'use strict';
 
-import Worker from 'worker#./worker.js';
+import work from 'webworkify-webpack';
 
 let worker = null;
 
@@ -16,7 +16,7 @@ export default class ZerothBase {
   }
 
   init = () => {
-    worker = new Worker();
+    worker = work(require.resolve('./worker.js'));
     worker.postMessage({
       command: 'init',
       params: this.params
