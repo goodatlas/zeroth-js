@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -513,10 +515,6 @@ var ZerothFile = function (_ZerothBase) {
   return ZerothFile;
 }(ZerothBase);
 
-var index = {
-  ZerothBase: ZerothBase,
-  ZerothMic: ZerothMic,
-  ZerothFile: ZerothFile
-};
-
-module.exports = index;
+exports.ZerothBase = ZerothBase;
+exports.ZerothMic = ZerothMic;
+exports.ZerothFile = ZerothFile;

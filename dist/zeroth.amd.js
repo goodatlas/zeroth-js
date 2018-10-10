@@ -1,4 +1,4 @@
-define(['webworkify-webpack'], function (work) { 'use strict';
+define(['exports', 'webworkify-webpack'], function (exports, work) { 'use strict';
 
   work = work && work.hasOwnProperty('default') ? work['default'] : work;
 
@@ -313,12 +313,10 @@ define(['webworkify-webpack'], function (work) { 'use strict';
     return ZerothFile;
   }(ZerothBase);
 
-  var index = {
-    ZerothBase: ZerothBase,
-    ZerothMic: ZerothMic,
-    ZerothFile: ZerothFile
-  };
+  exports.ZerothBase = ZerothBase;
+  exports.ZerothMic = ZerothMic;
+  exports.ZerothFile = ZerothFile;
 
-  return index;
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 });

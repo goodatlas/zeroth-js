@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.Zeroth = factory());
-}(this, (function () { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (factory((global.Zeroth = {})));
+}(this, (function (exports) { 'use strict';
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -517,12 +517,10 @@
     return ZerothFile;
   }(ZerothBase);
 
-  var index = {
-    ZerothBase: ZerothBase,
-    ZerothMic: ZerothMic,
-    ZerothFile: ZerothFile
-  };
+  exports.ZerothBase = ZerothBase;
+  exports.ZerothMic = ZerothMic;
+  exports.ZerothFile = ZerothFile;
 
-  return index;
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 })));

@@ -1,4 +1,4 @@
-var Zeroth = (function () {
+var Zeroth = (function (exports) {
   'use strict';
 
   function _classCallCheck(instance, Constructor) {
@@ -514,12 +514,10 @@ var Zeroth = (function () {
     return ZerothFile;
   }(ZerothBase);
 
-  var index = {
-    ZerothBase: ZerothBase,
-    ZerothMic: ZerothMic,
-    ZerothFile: ZerothFile
-  };
+  exports.ZerothBase = ZerothBase;
+  exports.ZerothMic = ZerothMic;
+  exports.ZerothFile = ZerothFile;
 
-  return index;
+  return exports;
 
-}());
+}({}));

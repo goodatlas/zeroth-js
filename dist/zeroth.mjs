@@ -311,10 +311,4 @@ var ZerothFile = function (_ZerothBase) {
   return ZerothFile;
 }(ZerothBase);
 
-var index = {
-  ZerothBase: ZerothBase,
-  ZerothMic: ZerothMic,
-  ZerothFile: ZerothFile
-};
-
-export default index;
+export { ZerothBase, ZerothMic, ZerothFile };
