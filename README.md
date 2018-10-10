@@ -1,6 +1,8 @@
 # zeroth-js
+> ⚠️ current `zeroth-js` is beta version! There's can be bugs and issues ⚠️
 
-zeroth-js is a browser-based JavaScript client library for [Zeroth ASR](https://github.com/goodatlas/zeroth).
+zeroth-js is a browser-based JavaScript client library for [Zeroth ASR](https://github.com/goodatlas/zeroth).<br/>
+([Zeroth Documentation](https://zeroth.gitbook.io/doc))
 
 ---
 - [ZerothBase](#zerothbase)
@@ -154,6 +156,13 @@ zeroth.onerror = error => {
 // stop recording (it will stop recording and call zeroth.disconnect() )
 zeroth.stop();
 ```
+
+###  Are you working in none `https` enviroment?
+`ZerothMic` using `getUserMedia()` to use microphone. And, `getUserMedia()` is works on only `https` enviroment (and `localhost`).
+
+###  Did you get `audio permission asking popup` at every `.start()`?
+Same with above, `getUserMedia()` is works on only `https` enviroment (and `localhost`). and In localhost, Your browser will ask for permission at every `.start()` function.<br/>**But don't be worry, In `https`, it shows only once.**
+
 
 ## ZerothFile (Working in progress)
 >It's extend of ZerothBase with sending file function.<br/>You can transcribed text via sending audio file to zeroth.
