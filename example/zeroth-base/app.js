@@ -37,7 +37,7 @@ const onSuccess = stream => {
     };
 
     zeroth = new ZerothBase(params);
-    zeroth.init(params);
+    zeroth.init();
 
     zeroth.onconnect = () => {
       startRecording(stream);
@@ -71,7 +71,7 @@ const onSuccess = stream => {
     };
 
     zeroth = new ZerothBase(params);
-    zeroth.init(params);
+    zeroth.init();
 
     zeroth.onconnect = () => {
       sendFile();
