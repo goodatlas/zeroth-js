@@ -1,4 +1,3 @@
 # exclude everything except lib and dist
 **/*
-!lib/**
 !dist/**
