@@ -20,7 +20,6 @@ const onError = err => {
 
 const onSuccess = () => {
   zeroth.onconnect = () => {
-    start.disabled = true;
     stop.disabled = false;
   };
 
@@ -45,6 +44,7 @@ start.onclick = () => {
     .start()
     .then(onSuccess)
     .catch(onError);
+  start.disabled = true;
 };
 
 stop.onclick = () => {
