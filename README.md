@@ -207,7 +207,7 @@ zeroth.onerror = error => {
 Check out `example` folder for a sample web app to send audio file and audio record stream (using Web Audio APIs).
 
 - [ZerothBase](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-base)
-- [ZerothFile](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-mic)
+- [ZerothMic](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-mic)
 - [ZerothFile](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-file)
 
 # Development
