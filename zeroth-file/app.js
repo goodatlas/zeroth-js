@@ -13,7 +13,7 @@ const { ZerothFile } = Zeroth;
 
 file.onclick = () => {
   const params = {
-    key: '0uLJcTO4GaUtSt3Ml66OFg4XhqKd1z80f5eeb12198421fb92bc102d6d34842',
+    key: 'YOUR_API_KEY',
     language: 'kor',
     // finalOnly: true,
     debug: true,
