@@ -1,12 +1,13 @@
 const path = require('path');
 
 function createConfig(target) {
+  let filePrefix = target === 'var' ? 'min' : target;
   return {
     mode: 'production',
     entry: './src/index.js',
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: 'zeroth.' + target + '.js',
+      filename: 'zeroth.' + filePrefix + '.js',
       library: 'Zeroth',
       libraryTarget: target
     },
