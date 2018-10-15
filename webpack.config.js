@@ -1,7 +1,7 @@
 const path = require('path');
 
 function createConfig(target) {
-  let filePrefix = target === 'var' ? 'min' : target;
+  let filePrefix = target === 'umd' ? 'min' : target;
   return {
     mode: 'production',
     entry: './src/index.js',
