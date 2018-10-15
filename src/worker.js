@@ -1,4 +1,5 @@
 import config from './config';
+import TranscriptCahce from './transcriptCache';
 
 let debug = () => {};
 let sock = null;
@@ -30,14 +31,16 @@ class Socket {
       debug = (...args) => console.log('[zerothjs:debug]', ...args);
     }
 
-    const { language, finalOnly, ws } = config.defaultParams;
+    const { language, finalOnly, ws, concatResult } = config.defaultParams;
     this.params = {
       key: params.key,
       language: params.language || language,
       finalOnly: params.finalOnly || finalOnly,
+      concatResult: !params.concatResult || !concatResult,
       ws: params.ws || ws
     };
     this.ws = null;
+    this.transcriptCache = null;
     this.connect();
   }
 
@@ -53,9 +56,11 @@ class Socket {
     debug('uri', uri);
 
     this.ws = new WebSocket(uri);
+    this.transcriptCache = new TranscriptCahce();
 
     this.ws.onopen = () => {
       postMessage({ command: 'onconnect' });
+      this.transcriptCache.clean();
     };
 
     this.ws.onerror = e => {
@@ -67,12 +72,13 @@ class Socket {
     this.ws.onclose = e => {
       debug('websocket closed', e.code, e.reason, e.message);
       this.ws = null;
+      this.transcriptCache.clean();
       postMessage({ command: 'ondisconnect' });
     };
 
     this.ws.onmessage = e => {
       // debug('received data', e.data);
-      postMessage({ command: 'ondata', data: JSON.parse(e.data) });
+      postMessage({ command: 'ondata', data: e.data });
     };
   };
 

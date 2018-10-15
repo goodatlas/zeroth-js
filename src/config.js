@@ -7,6 +7,7 @@ export default {
   defaultParams: {
     language: 'eng',
     finalOnly: false,
+    concatResult: true,
     ws: false
   }
 };
