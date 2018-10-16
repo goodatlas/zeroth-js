@@ -4,7 +4,9 @@
 <body>
   <div>
     <h2>Zeroth Demo</h2>
-    <h3>Upload</h2>
+    <h3>API Key</h3>
+    <input id="key" type="text" placeholder="YOUR ZEROTH API KEY..." />
+    <h3>Upload</h3>
     <input type='file' id='audiofile' accept='audio/*'/>
     </br></br>
     <button class='file'>submit</button>
@@ -12,6 +14,10 @@
     <p>
       <span><b>transcript only - </b></span>
       <span class='transcript'></span>
+    </p>
+    <p>
+      <span><b>with word confidence (Works on only final) - </b></span>
+      <span class='confidence'></span>
     </p>
     <p>
       <span><b>complete json - </b></span>
