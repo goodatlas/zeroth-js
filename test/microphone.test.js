@@ -31,16 +31,18 @@ describe('ZerothMic', () => {
   it(
     'Should return result',
     async done => {
+      function consoleCheck(msg) {
+        if (msg.text() === 'got data') {
+          check(msg.text());
+        }
+      }
       function check(err) {
         expect(err).toMatch('got data');
+        page.removeListener('console', consoleCheck);
         done();
       }
 
-      page.once('console', message => {
-        if (message.text() === 'got data') {
-          check(message.text());
-        }
-      });
+      page.on('console', consoleCheck);
 
       await page.evaluate(key => {
         const mic = new Zeroth.ZerothMic({ key, language: 'kor', debug: true });
