@@ -1,14 +1,10 @@
-if (!KEY) {
-  throw Error('You Should add API_KEY for test! try like this `API_KEY=yourkeyhere npm run test`');
-}
-
 describe('ZerothMic', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await page.goto(PATH);
   });
   it('Should get Media permission when call `start()`', async done => {
     function check(err) {
-      expect(err).toMatch('Success to get media');
+      expect(err).toMatch('[zerothjs:debug] Successfully got UserMedia');
       done();
     }
 
@@ -17,16 +13,63 @@ describe('ZerothMic', () => {
     });
 
     await page.evaluate(key => {
-      const mic = new Zeroth.ZerothMic({ key, language: 'kor' });
+      const mic = new Zeroth.ZerothMic({ key, language: 'kor', debug: true });
+      mic.onconnect = () => {
+        mic.stop();
+      };
       mic
         .start()
-        .then(() => console.log('Success to get media'))
-        .catch(e => console.log(e));
+        .then(() => {
+          console.log('Success to get media');
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }, KEY);
   });
 
-  // connect
-  // event handlers
+  it(
+    'Should return result',
+    async done => {
+      function check(err) {
+        expect(err).toMatch('got data');
+        done();
+      }
+
+      page.once('console', message => {
+        if (message.text() === 'got data') {
+          check(message.text());
+        }
+      });
+
+      await page.evaluate(key => {
+        const mic = new Zeroth.ZerothMic({ key, language: 'kor', debug: true });
+        mic.ondata = () => {
+          console.log('got data');
+          mic.stop();
+        };
+        mic.ondisconnect = e => {
+          console.warn('disconnect:', e);
+        };
+        mic.onerror = e => {
+          console.warn('error:', e);
+        };
+        mic.onconnnect = () => {
+          console.warn('connected');
+        };
+        mic
+          .start()
+          .then(() => {
+            console.warn('Success to get media');
+          })
+          .catch(e => {
+            console.warn(e);
+          });
+      }, KEY);
+    },
+    50000
+  );
+
+  // if not media browser
   // message
-  // ...
 });

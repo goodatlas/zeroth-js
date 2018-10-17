@@ -1,3 +1,7 @@
+if (!process.env.API_KEY) {
+  throw Error('You Should add API_KEY for test! try like this `API_KEY=yourkeyhere npm run test`');
+}
+
 module.exports = {
   preset: 'jest-puppeteer',
   globals: {

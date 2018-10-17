@@ -19,11 +19,12 @@ export default class ZerothBase {
     throw new Error(`Missing${name ? ` required ${name}` : ''} parameter`);
   }
 
-  init = () => {
+  init = sampleRate => {
     worker = work(require.resolve('./worker.js'));
     worker.postMessage({
       command: 'init',
-      params: this.params
+      params: this.params,
+      sampleRate
     });
     worker.onmessage = e => {
       switch (e.data.command) {

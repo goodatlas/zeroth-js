@@ -26,6 +26,7 @@ describe('ZerothBase', () => {
       const base = new Zeroth.ZerothBase({});
       base.init();
       base.onerror = e => {
+        base.disconnect();
         console.log(e);
       };
       base.init();
