@@ -5,8 +5,6 @@ module.exports = {
   //   port: 4444
   // },
   launch: {
-    args: ['--use-fake-ui-for-media-stream'],
-    devtools: true,
-    headless: false
+    args: ['--use-fake-ui-for-media-stream']
   }
 };

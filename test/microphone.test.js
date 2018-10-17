@@ -31,6 +31,9 @@ describe('ZerothMic', () => {
   it(
     'Should return result',
     async done => {
+      process.stdout.write('\x1Bc');
+      process.stdout.write('Say something until finish!\n');
+
       function consoleCheck(msg) {
         if (msg.text() === 'got data') {
           check(msg.text());
