@@ -4,6 +4,13 @@
 <p align="center">
  <small>zeroth-js is a browser-based JavaScript client library for <a href="https://zeroth-cloud.goodatlas.com" target="_blank">Zeroth Cloud</a>.<br/></small>
 </p>
+
+<p align="center">
+    <a href="https://github.com/goodatlas/zeroth-js"><img src="https://img.shields.io/badge/dynamic/json.svg?uri=https://raw.githubusercontent.com/goodatlas/zeroth-js/master/package.json&query=$.version&label=master&prefix=v&style=flat"/></a>
+  <a href="https://github.com/goodatlas/zeroth-js/tree/develop"><img src="https://img.shields.io/badge/dynamic/json.svg?uri=https://raw.githubusercontent.com/goodatlas/zeroth-js/develop/package.json&query=$.version&label=develop&prefix=v&colorB=10ADED&style=flat"/></a>
+        <a href="https://github.com/goodatlas/zeroth-js"><img src="https://img.shields.io/github/size/goodatlas/zeroth-js/dist/zeroth.min.js.svg"/></a>
+</p>
+
 <p align="center"><a href="https://zeroth.gitbook.io/doc" target="_blank">Zeroth Documentation</a> | <a href="https://zeroth-cloud.goodatlas.com" target="_blank">Landing page</a> | <a href="https://zeroth-console.goodatlas.com" target="_blank">Dashboard</a> </p>
 
 > ⚠️ current `zeroth-js` is beta version! There's can be bugs and issues ⚠️
