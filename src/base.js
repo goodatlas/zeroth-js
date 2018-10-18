@@ -5,7 +5,7 @@ import work from 'webworkify-webpack';
 let worker = null;
 
 export default class ZerothBase {
-  constructor(params) {
+  constructor(params = this.throwIfParamsMissing()) {
     const noop = () => {};
     this.onconnect = this.onconnect || noop;
     this.onready = this.onready || noop;
@@ -15,11 +15,16 @@ export default class ZerothBase {
     this.params = params;
   }
 
-  init = () => {
+  throwIfParamsMissing(name) {
+    throw new Error(`Missing${name ? ` required ${name}` : ''} parameter`);
+  }
+
+  init = sampleRate => {
     worker = work(require.resolve('./worker.js'));
     worker.postMessage({
       command: 'init',
-      params: this.params
+      params: this.params,
+      sampleRate
     });
     worker.onmessage = e => {
       switch (e.data.command) {

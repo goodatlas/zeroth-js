@@ -48,10 +48,10 @@ export default class ZerothMic extends ZerothBase {
     });
 
   recording = () => {
-    this.init(this.params);
+    this.context = new CrossAudioContext();
+    this.init(this.context.sampleRate);
     this.onready = () => {
       const { bufferSize, channels, stream } = this;
-      this.context = new CrossAudioContext();
       const source = this.context.createMediaStreamSource(stream);
       const processor = this.context.createScriptProcessor(bufferSize, channels, channels);
       source.connect(processor);
