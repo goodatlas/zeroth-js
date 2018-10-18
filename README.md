@@ -215,6 +215,11 @@ Check out `example` folder for a sample web app to send audio file and audio rec
 - [ZerothFile](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-file)
 
 # Development
+Test
+
+```
+API_KEY=yourapikey npm run test
+```
 
 Build
 ```
