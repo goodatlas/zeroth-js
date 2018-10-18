@@ -29,7 +29,7 @@ describe('ZerothMic', () => {
   });
 
   it(
-    'Should return result',
+    'Should return result after recording',
     async done => {
       process.stdout.write('\x1Bc');
       process.stdout.write('Say something until finish!\n');
@@ -52,15 +52,6 @@ describe('ZerothMic', () => {
         mic.ondata = () => {
           console.log('got data');
           mic.stop();
-        };
-        mic.ondisconnect = e => {
-          console.warn('disconnect:', e);
-        };
-        mic.onerror = e => {
-          console.warn('error:', e);
-        };
-        mic.onconnnect = () => {
-          console.warn('connected');
         };
         mic
           .start()

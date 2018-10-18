@@ -6,7 +6,7 @@
   "main": "./dist/zeroth.commonjs2.js",
   "browser": "./dist/zeroth.umd.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose",
     "build": "webpack"
   },
   "keywords": [

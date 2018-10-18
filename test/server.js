@@ -31,6 +31,7 @@ app.use((req, res) => {
       <p>
         <button class='start'>start</button>
         <button class='stop'>stop</button>
+        <input id='file' type='file'/>
       </p>
   <script>
   ${normalizeAssets(assetsByChunkName.main)
