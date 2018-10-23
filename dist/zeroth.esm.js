@@ -102,6 +102,9 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
     }, r.exports), r.exports;
   }(function (module, exports) {
     var sock = null;
+
+    var debug = function debug() {};
+
     var config = {
       wsServerAddr: '13.125.232.133',
       wsServerPort: 3180,
@@ -355,7 +358,7 @@ var config = {
   }
 };
 
-var debug$1 = function debug() {};
+var debug = function debug() {};
 
 var ZerothMic =
 /*#__PURE__*/
@@ -372,7 +375,7 @@ function (_ZerothBase) {
     _this.start = function () {
       return new Promise(function (resolve, reject) {
         var onSuccess = function onSuccess(stream) {
-          debug$1('Successfully got UserMedia');
+          debug('Successfully got UserMedia');
           _this.stream = stream;
 
           _this.recording();
@@ -393,7 +396,7 @@ function (_ZerothBase) {
           var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
           if (!getUserMedia) {
-            debug$1("Couldn't found getUserMedia on your browser.");
+            debug("Couldn't found getUserMedia on your browser.");
             reject(new Error("Your browser dosen't support Media"));
             return;
           }
@@ -452,7 +455,7 @@ function (_ZerothBase) {
     _this.sampleRate = config.sampleRate;
 
     if (params.debug) {
-      debug$1 = function debug() {
+      debug = function debug() {
         var _console;
 
         for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {

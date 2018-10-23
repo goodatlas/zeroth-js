@@ -1,4 +1,6 @@
 let sock = null;
+let debug = () => {};
+
 const config = {
   wsServerAddr: '13.125.232.133',
   wsServerPort: 3180,

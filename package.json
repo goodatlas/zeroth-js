@@ -1,6 +1,6 @@
 {
   "name": "zeroth-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Zeroth JavaScript library",
   "private": true,
   "main": "dist/zeroth.cjs.js",
@@ -8,7 +8,7 @@
   "browser": "dist/zeroth.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "npx rollup -c"
   },
   "keywords": [
     "zeroth",
@@ -24,9 +24,9 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/runtime": "^7.1.2",
     "babel-eslint": "^8.2.2",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^2.0.0-alpha.20",
     "eslint": "^4.19.1",
     "eslint-plugin-prettier": "^2.6.0",
     "prettier": "1.11.1",
@@ -38,9 +38,5 @@
     "rollup-plugin-optimize-js": "0.0.4",
     "rollup-plugin-uglify": "^6.0.0",
     "rollup-plugin-webworkify": "0.0.4"
-  },
-  "dependencies": {
-    "@babel/preset-env": "^7.1.0",
-    "@babel/runtime": "^7.1.2"
   }
 }
