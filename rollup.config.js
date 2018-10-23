@@ -8,7 +8,7 @@ import pkg from './package.json';
 
 export default [
   {
-    input: 'src/config.js',
+    input: 'src/index.js',
     output: {
       name: 'Zeroth',
       file: pkg.browser,
@@ -20,7 +20,7 @@ export default [
         runtimeHelpers: true,
         sourceMap: true,
         exclude: 'node_modules/**',
-        include: 'src/base.worker.js'
+        include: 'src/**'
       }),
       webworkify(),
       commonjs(),
