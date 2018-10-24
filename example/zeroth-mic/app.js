@@ -42,7 +42,7 @@ start.onclick = () => {
   const params = {
     key: document.querySelector('#key').value,
     language: 'kor',
-    finalOnly: false,
+    // finalOnly: false,
     ws: false,
     debug: true
   };
