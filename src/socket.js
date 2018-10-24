@@ -3,7 +3,7 @@
 // Should fix rollup-plugin-webworkify's babel problem
 let debug = () => {};
 class Socket {
-  constructor(params) {
+  constructor(params, sampleRate) {
     if (!params || !params.key) {
       postMessage({ command: 'onerror', error: 'API key missing' });
       return;
@@ -21,6 +21,7 @@ class Socket {
       ws: params.ws || ws
     };
     this.ws = null;
+    this.sampleRate = sampleRate || config.sampleRate;
     this.connect();
   }
 
@@ -30,10 +31,9 @@ class Socket {
       wsServerPort,
       wssServerAddr,
       wssServerPort,
-      sampleRate
     } = config;
     const { key, language, finalOnly, ws } = this.params;
-    const contentType = `audio/x-raw,+layout=(string)interleaved,+rate=(int)${sampleRate},+format=(string)S16LE,+channels=(int)1`;
+    const contentType = `audio/x-raw,+layout=(string)interleaved,+rate=(int)${this.sampleRate},+format=(string)S16LE,+channels=(int)1`;
     const query = `content-type=${contentType}&key=${key}&language=${language}&final-only=${finalOnly}`;
     const uri = ws
       ? `ws://${wsServerAddr}:${wsServerPort}/client/ws/speech?${query}`
@@ -45,6 +45,7 @@ class Socket {
 
     this.ws.onopen = () => {
       postMessage({ command: 'onconnect' });
+      debug('connected to zeroth', uri);
     };
 
     this.ws.onerror = e => {

@@ -265,16 +265,20 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
 
 var worker = null;
 
-var ZerothBase = function ZerothBase(params) {
+var ZerothBase = function ZerothBase() {
   var _this = this;
+
+  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.throwIfParamsMissing();
 
   _classCallCheck(this, ZerothBase);
 
   this.init = function () {
+    var sampleRate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 44100;
     worker = new Worker$1();
     worker.postMessage({
       command: 'init',
-      params: _this.params
+      params: _this.params,
+      sampleRate: sampleRate
     });
 
     worker.onmessage = function (e) {
@@ -415,15 +419,15 @@ function (_ZerothBase) {
     };
 
     _this.recording = function () {
-      _this.init(_this.params);
+      _this.context = new CrossAudioContext();
+
+      _this.init(_this.context.sampleRate);
 
       _this.onready = function () {
         var _assertThisInitialize = _assertThisInitialized(_assertThisInitialized(_this)),
             bufferSize = _assertThisInitialize.bufferSize,
             channels = _assertThisInitialize.channels,
             stream = _assertThisInitialize.stream;
-
-        _this.context = new CrossAudioContext();
 
         var source = _this.context.createMediaStreamSource(stream);
 
@@ -497,13 +501,15 @@ function (_ZerothBase) {
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        var audioCtx = new CrossAudioContext();
         var buf = e.target.result;
-        audioCtx.decodeAudioData(buf, function (audioBuffer) {
+
+        _this.audioCtx.decodeAudioData(buf, function (audioBuffer) {
           var left = audioBuffer.getChannelData(0);
           var buf = convertFloat32ToInt16(left);
-          zeroth.send(buf);
-          zeroth.disconnect();
+
+          _this.send(buf);
+
+          _this.disconnect();
         });
       };
 
@@ -513,8 +519,6 @@ function (_ZerothBase) {
     _this.onready = function () {
       _this.sendFile(_this.file);
     };
-
-    _this.init(params);
 
     _this.file = params.file;
 
@@ -527,6 +531,10 @@ function (_ZerothBase) {
     }
 
     _this.sampleRate = config.sampleRate;
+    _this.audioCtx = new CrossAudioContext();
+
+    _this.init(_this.audioCtx.sampleRate);
+
     return _this;
   }
 

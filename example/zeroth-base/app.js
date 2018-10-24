@@ -7,6 +7,7 @@ const channels = 1;
 let zeroth = null;
 let context = null;
 
+const key = document.querySelector('#key');
 const start = document.querySelector('.start');
 const stop = document.querySelector('.stop');
 const transcript = document.querySelector('.transcript');
@@ -30,7 +31,7 @@ const init = () => {
 const onSuccess = stream => {
   start.onclick = () => {
     const params = {
-      key: 'YOUR_API_KEY',
+      key: key.value,
       language: 'kor',
       // finalOnly: true,
       debug: true
@@ -64,7 +65,7 @@ const onSuccess = stream => {
 
   file.onclick = () => {
     const params = {
-      key: 'YOUR_API_KEY',
+      key: key.value,
       language: 'kor',
       // finalOnly: true,
       debug: true
