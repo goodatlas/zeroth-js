@@ -31,7 +31,6 @@ class Socket {
       wsServerPort,
       wssServerAddr,
       wssServerPort,
-      sampleRate
     } = config;
     const { key, language, finalOnly, ws } = this.params;
     const contentType = `audio/x-raw,+layout=(string)interleaved,+rate=(int)${this.sampleRate},+format=(string)S16LE,+channels=(int)1`;

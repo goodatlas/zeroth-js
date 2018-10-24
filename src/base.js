@@ -15,7 +15,7 @@ export default class ZerothBase {
     this.params = params;
   }
 
-  init = () => {
+  init = (sampleRate = 44100) => {
     worker = new Worker();
     worker.postMessage({
       command: 'init',

@@ -273,6 +273,7 @@ var ZerothBase = function ZerothBase() {
   _classCallCheck(this, ZerothBase);
 
   this.init = function () {
+    var sampleRate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 44100;
     worker = new Worker$1();
     worker.postMessage({
       command: 'init',
@@ -500,13 +501,15 @@ function (_ZerothBase) {
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        var audioCtx = new CrossAudioContext();
         var buf = e.target.result;
-        audioCtx.decodeAudioData(buf, function (audioBuffer) {
+
+        _this.audioCtx.decodeAudioData(buf, function (audioBuffer) {
           var left = audioBuffer.getChannelData(0);
           var buf = convertFloat32ToInt16(left);
-          zeroth.send(buf);
-          zeroth.disconnect();
+
+          _this.send(buf);
+
+          _this.disconnect();
         });
       };
 
@@ -516,8 +519,6 @@ function (_ZerothBase) {
     _this.onready = function () {
       _this.sendFile(_this.file);
     };
-
-    _this.init(params);
 
     _this.file = params.file;
 
@@ -530,6 +531,10 @@ function (_ZerothBase) {
     }
 
     _this.sampleRate = config.sampleRate;
+    _this.audioCtx = new CrossAudioContext();
+
+    _this.init(_this.audioCtx.sampleRate);
+
     return _this;
   }
 
