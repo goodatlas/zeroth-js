@@ -259,8 +259,10 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
 
 var worker = null;
 
-var ZerothBase = function ZerothBase(params) {
+var ZerothBase = function ZerothBase() {
   var _this = this;
+
+  var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.throwIfParamsMissing();
 
   _classCallCheck(this, ZerothBase);
 
@@ -268,7 +270,8 @@ var ZerothBase = function ZerothBase(params) {
     worker = new Worker$1();
     worker.postMessage({
       command: 'init',
-      params: _this.params
+      params: _this.params,
+      sampleRate: sampleRate
     });
 
     worker.onmessage = function (e) {
@@ -409,15 +412,15 @@ function (_ZerothBase) {
     };
 
     _this.recording = function () {
-      _this.init(_this.params);
+      _this.context = new CrossAudioContext();
+
+      _this.init(_this.context.sampleRate);
 
       _this.onready = function () {
         var _assertThisInitialize = _assertThisInitialized(_assertThisInitialized(_this)),
             bufferSize = _assertThisInitialize.bufferSize,
             channels = _assertThisInitialize.channels,
             stream = _assertThisInitialize.stream;
-
-        _this.context = new CrossAudioContext();
 
         var source = _this.context.createMediaStreamSource(stream);
 
