@@ -41,10 +41,10 @@ const onSuccess = () => {
 start.onclick = () => {
   const params = {
     key: document.querySelector('#key').value,
-    language: 'kor',
-    // finalOnly: false,
-    ws: false,
-    debug: true
+    language: document.querySelector('input[name="language"]:checked').value,
+    finalOnly: document.querySelector('#finalOnly').checked,
+    ws: document.querySelector('#ws').checked,
+    debug: document.querySelector('#debug').checked
   };
 
   zeroth = new Zeroth.ZerothMic(params);
