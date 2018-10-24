@@ -31,10 +31,11 @@ const init = () => {
 const onSuccess = stream => {
   start.onclick = () => {
     const params = {
-      key: key.value,
-      language: 'kor',
-      // finalOnly: true,
-      debug: true
+      key: document.querySelector('#key').value,
+      language: document.querySelector('input[name="language"]:checked').value,
+      finalOnly: document.querySelector('#finalOnly').checked,
+      ws: document.querySelector('#ws').checked,
+      debug: document.querySelector('#debug').checked
     };
 
     zeroth = new ZerothBase(params);
@@ -65,10 +66,11 @@ const onSuccess = stream => {
 
   file.onclick = () => {
     const params = {
-      key: key.value,
-      language: 'kor',
-      // finalOnly: true,
-      debug: true
+      key: document.querySelector('#key').value,
+      language: document.querySelector('input[name="language"]:checked').value,
+      finalOnly: document.querySelector('#finalOnly').checked,
+      ws: document.querySelector('#ws').checked,
+      debug: document.querySelector('#debug').checked
     };
 
     zeroth = new ZerothBase(params);

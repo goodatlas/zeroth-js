@@ -15,11 +15,11 @@ const { ZerothFile } = Zeroth;
 
 file.onclick = () => {
   const params = {
-    key: key.value,
-    language: 'kor',
-    // finalOnly: true,
-    debug: true,
-    file: document.getElementById('audiofile').files[0]
+    key: document.querySelector('#key').value,
+    language: document.querySelector('input[name="language"]:checked').value,
+    finalOnly: document.querySelector('#finalOnly').checked,
+    ws: document.querySelector('#ws').checked,
+    debug: document.querySelector('#debug').checked
   };
 
   zeroth = new ZerothFile(params);

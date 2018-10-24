@@ -2,10 +2,21 @@
 <html>
 
 <body>
+  <button onclick="window.history.back();">Go Back</button>
   <div>
     <h2>Zeroth Demo</h2>
     <h3>API Key</h3>
     <input id="key" type="text" placeholder="YOUR ZEROTH API KEY..." />
+    <h3>Setting</h3>
+    <label for="language"><code>language :</code></label>
+    <input type="radio" name="language" value="kor" id="kor" checked /><label for="kor"><code>Korean</code></label> |
+    <input type="radio" name="language" value="eng" id="eng" /><label for="eng"><code>English</code></label><br />
+    <label for="finalyOnly"><code>finalOnly :</code></label>
+    <input type="checkbox" id="finalOnly" /><br />
+    <label for="debug"><code>debug</code></label>
+    <input type="checkbox" id="debug" checked /><br />
+    <label for="ws"><code>ws (You shouldn't use ws in https!) :</code></label>
+    <input type="checkbox" id="ws" disabled />
     <h3>Record</h3>
     <p>
       <button class='start'>start</button>
