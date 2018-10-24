@@ -1,24 +1,7 @@
-import config from './config';
 
+// TODO : This code was in base.worker.js.
+// Should fix rollup-plugin-webworkify's babel problem
 let debug = () => {};
-let sock = null;
-
-export default function worker(self) {
-  self.onmessage = e => {
-    switch (e.data.command) {
-      case 'init':
-        sock = new Socket(e.data.params, e.data.sampleRate);
-        break;
-      case 'disconnect':
-        sock.disconnect();
-        break;
-      case 'send':
-        sock.send(e.data.data);
-        break;
-    }
-  };
-}
-
 class Socket {
   constructor(params, sampleRate) {
     if (!params || !params.key) {
@@ -43,7 +26,13 @@ class Socket {
   }
 
   connect = () => {
-    const { wsServerAddr, wsServerPort, wssServerAddr, wssServerPort } = config;
+    const {
+      wsServerAddr,
+      wsServerPort,
+      wssServerAddr,
+      wssServerPort,
+      sampleRate
+    } = config;
     const { key, language, finalOnly, ws } = this.params;
     const contentType = `audio/x-raw,+layout=(string)interleaved,+rate=(int)${this.sampleRate},+format=(string)S16LE,+channels=(int)1`;
     const query = `content-type=${contentType}&key=${key}&language=${language}&final-only=${finalOnly}`;

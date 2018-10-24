@@ -1,6 +1,6 @@
 'use strict';
 
-import work from 'webworkify-webpack';
+import Worker from 'worker#./base.worker.js';
 
 let worker = null;
 
@@ -15,12 +15,8 @@ export default class ZerothBase {
     this.params = params;
   }
 
-  throwIfParamsMissing(name) {
-    throw new Error(`Missing${name ? ` required ${name}` : ''} parameter`);
-  }
-
-  init = sampleRate => {
-    worker = work(require.resolve('./worker.js'));
+  init = () => {
+    worker = new Worker();
     worker.postMessage({
       command: 'init',
       params: this.params,
