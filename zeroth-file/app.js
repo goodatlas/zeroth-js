@@ -19,7 +19,8 @@ file.onclick = () => {
     language: document.querySelector('input[name="language"]:checked').value,
     finalOnly: document.querySelector('#finalOnly').checked,
     ws: document.querySelector('#ws').checked,
-    debug: document.querySelector('#debug').checked
+    debug: document.querySelector('#debug').checked,
+    file: document.getElementById('audiofile').files[0]
   };
 
   zeroth = new ZerothFile(params);
