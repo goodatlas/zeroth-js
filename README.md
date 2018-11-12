@@ -16,19 +16,20 @@
 > ⚠️ current `zeroth-js` is beta version! There's can be bugs and issues ⚠️
 
 ---
-- [ZerothBase](#zerothbase)
-  - Just help you to connect with Zeroth.
-  - You should implement functions such as recording stuffs, sending file stuffs. 
-  - But You can customize yourself.
 
+* [ZerothBase](#zerothbase)
+  * Just help you to connect with Zeroth.
+  * You should implement functions such as recording stuffs, sending file stuffs.
+  * But You can customize yourself.
 
 - [ZerothMic](#zerothmic)
-  - It's extend of ZerothBase with microphone recording function.
-  - You can use real-time STT easily.
+
+  * It's extend of ZerothBase with microphone recording function.
+  * You can use real-time STT easily.
 
 - [ZerothFile](#zerothfile)(Working in progress)
-  - It's extend of ZerothBase with sending file function.
-  - You can transcribed text via sending audio file to zeroth.
+  * It's extend of ZerothBase with sending file function.
+  * You can transcribed text via sending audio file to zeroth.
 
 # Installation
 
@@ -41,6 +42,7 @@ npm install goodatlas/zeroth-js
 Using this method, you can `import` zeroth-js like:
 
 ### ES6
+
 ```js
 import { ZerothBase } from 'zeroth-js';
 // or
@@ -50,6 +52,7 @@ import { ZerothFile } from 'zeroth-js';
 ```
 
 ### ES5 - CommonJS
+
 ```js
 var ZerothBase = require('zeroth-js').ZerothBase;
 // or
@@ -67,6 +70,7 @@ Include the js file directly in your web app using a `<script>` tag.
 ```
 
 ### ES5 - UMD Build
+
 ```js
 var ZerothBase = Zeroth.ZerothBase;
 // or
@@ -75,19 +79,96 @@ var ZerothMic = Zeroth.ZerothMic;
 var ZerothFile = Zeroth.ZerothFile;
 ```
 
+# Get Access Token
+
+There's two way to get access token in `zeroth-js`.
+
+## Using with Server (Secure way, Recommended)
+
+You should add one API endpoint in your server to get accessToken.<br/>
+Please check this [REST API document](https://zeroth.gitbook.io/doc/guides-1/rest-api).
+
+Create GET endpoint named `/get-token` (whatever you want) in your server.
+This endpoint will return response of our this REST API.
+
+<details>
+  <summary>
+    <b>Example</b>
+  </summary>
+  <p>
+If you are using `node.js`, `express` and `axios` , Your code will look like below.
+
+```js
+const express = require('express');
+const axios = require('axios');
+const app = express();
+​
+app.get('/get-token', function (req, res) {
+  const url = 'https://zeroth-test.goodatlas.com:2053/token';
+  const opt = {
+    headers: {
+        Authorization : `$YOUR_APP_ID:$YOUR_APP_SECRET`
+      }
+    };
+  axios.get(url, opt)
+    .then(({ data }) => res.send(data['access_token']))
+    // Your error handler here
+})
+```
+
+> !important you have to replace $YOUR_APP_ID and $YOUR_APP_SECRETwith yours from Zeroth Console ( https://zeroth-console.goodatlas.com​). You will have to create new application
+
+That's all what you need in server side.
+
+  </p>
+</details>
+
+## Using without Server  (Less secure but simple way)
+
+zeroth-js will issue `accessToken` based on your `appId`, `appSecret` in [parameter](#parameters).
+
+# Parameters
+
+Using with server ([Link](#user-content-using-with-server-secure-way-recommended))
+```js
+const params = {
+language: 'kor', // Required. You can choose 'eng' for English or 'kor' for Korean
+accessToken: '$YOUR_ACCESS_TOKEN', // Required. You should get access token from your sever
+finalOnly: false, // Optional(Default: false) If this is 'true', you will get only final results.
+ws: false, // Optional(Default: false) We are using WebSocket Secure (wss). If this is true, we will use 'ws' instead of 'wss'
+debug: true // Optional(Default: false) If this is 'true', you will get all logs from Zeroth.
+}
+​```
+
+Using without server ([Link](#user-content-using-without-server--less-secure-but-simple-way))
+
+```js
+const params = {
+language: 'kor', // Required. You can choose 'eng' for English or 'kor' for Korean
+appId: '$YOUR_APP_ID', // Required. You can get your appId with create new application in zeroth-console
+appSecret: '$YOUR_APP_SECRET', // Required. You can get your appSecret with create new application in zeroth-console
+finalOnly: false, // Optional(Default: false) If this is 'true', you will get only final results.
+ws: false, // Optional(Default: false) We are using WebSocket Secure (wss). If this is true, we will use 'ws' instead of 'wss'
+debug: true // Optional(Default: false) If this is 'true', you will get all logs from Zeroth.
+}
+```
+
 # Usage
+
 ## ZerothBase
+
 > Just help you to connect with Zeroth.<br/>You should implement functions such as recording stuffs, sending file stuffs.<br/>But You can customize yourself.
 
 ([Example](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-base))
+
 ```js
 const params = {
-    key: 'YOUR_API_KEY', // required. you can get your api key in dashboard.
-    language: 'kor', // required. you can choose 'eng' for English or 'kor' for Korean
-    finalOnly: false, // optional(default: false) if this is 'true', You will get only final results.
-    ws: false, // optional(default: false) we are using websocket secure (wss). if this is true, we will use 'ws' instead of 'wss'
-    debug: true // optional(default: false) if this is 'true', You will get all logs from zeroth.
-}
+  // appId, appSecret or accessToken
+  language: 'kor', // required. you can choose 'eng' for English or 'kor' for Korean
+  finalOnly: false, // optional(default: false) if this is 'true', You will get only final results.
+  ws: false, // optional(default: false) we are using websocket secure (wss). if this is true, we will use 'ws' instead of 'wss'
+  debug: true // optional(default: false) if this is 'true', You will get all logs from zeroth.
+};
 
 zeroth = new ZerothBase(params);
 
@@ -118,8 +199,8 @@ zeroth.send(data);
 zeroth.disconnect();
 ```
 
-
 ## ZerothMic
+
 > It's extend of ZerothBase with microphone recording function.<br/>You can use real-time STT easily.
 
 It support browser which support [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia), [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext),
@@ -127,29 +208,31 @@ It support browser which support [getUserMedia](https://developer.mozilla.org/en
 You can check caniuse [here](https://caniuse.com/#search=Web%20Audio%20API).
 
 ([Example](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-mic))
+
 ```js
 const params = {
-    key: 'YOUR_API_KEY', // required. you can get your api key in dashboard.
-    language: 'kor', // required. you can choose 'eng' for English or 'kor' for Korean
-    finalOnly: false, // optional(default: false) if this is 'true', You will get only final results.
-    ws: false, // optional(default: false) we are using websocket secure (wss). if this is true, we will use 'ws' instead of 'wss'
-    debug: true // optional(default: false) if this is 'true', You will get all logs from zeroth.
-}
+  // appId, appSecret or accessToken
+  language: 'kor', // required. you can choose 'eng' for English or 'kor' for Korean
+  finalOnly: false, // optional(default: false) if this is 'true', You will get only final results.
+  ws: false, // optional(default: false) we are using websocket secure (wss). if this is true, we will use 'ws' instead of 'wss'
+  debug: true // optional(default: false) if this is 'true', You will get all logs from zeroth.
+};
 
 zeroth = new ZerothMic(params);
 
-zeroth.start() // try to start recording
-    .then(() => {
-        console.log('Successfully initialized recording');
-        // what you want to do after initialize recording
-    })
-    .catch(() => {
-        console.log('Your browser doesn\'t support recording');
-        // what you want to do after failed to initialize recording
-    });
+zeroth
+  .start() // try to start recording
+  .then(() => {
+    console.log('Successfully initialized recording');
+    // what you want to do after initialize recording
+  })
+  .catch(() => {
+    console.log("Your browser doesn't support recording");
+    // what you want to do after failed to initialize recording
+  });
 
 zeroth.onconnect = () => {
-  // connected to zeroth 
+  // connected to zeroth
 };
 
 zeroth.ondata = data => {
@@ -168,15 +251,17 @@ zeroth.onerror = error => {
 zeroth.stop();
 ```
 
-###  Are you working in none `https` enviroment?
+### Are you working in none `https` enviroment?
+
 `ZerothMic` using `getUserMedia()` to use microphone. And, `getUserMedia()` is works on only `https` enviroment (and `localhost`).
 
-###  Did you get `audio permission asking popup` at every `.start()`?
+### Did you get `audio permission asking popup` at every `.start()`?
+
 Same with above, `getUserMedia()` is works on only `https` enviroment (and `localhost`). and In localhost, Your browser will ask for permission at every `.start()` function.<br/>**But don't be worry, In `https`, it shows only once.**
 
-
 ## ZerothFile (Working in progress)
->It's extend of ZerothBase with sending file function.<br/>You can transcribed text via sending audio file to zeroth.
+
+> It's extend of ZerothBase with sending file function.<br/>You can transcribed text via sending audio file to zeroth.
 
 You must send audio file. if you are using `<input type="file">` tag, you can add `accept="audio/*"` attribute.
 
@@ -185,9 +270,10 @@ It support browser which support [AudioContext](https://developer.mozilla.org/en
 You can check caniuse [here](https://caniuse.com/#search=Web%20Audio%20API).
 
 ([Example](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-file))
+
 ```js
 const params = {
-    key: 'YOUR_API_KEY', // required. you can get your api key in dashboard.
+    // appId, appSecret or accessToken
     language: 'kor', // required. you can choose 'eng' for English or 'kor' for Korean
     finalOnly: false, // optional(default: false) if this is 'true', you will get only final results.
     ws: false, // optional(default: false) we are using websocket secure (wss). if this is true, we will use 'ws' instead of 'wss'
@@ -217,18 +303,14 @@ zeroth.onerror = error => {
 
 Check out `example` folder for a sample web app to send audio file and audio record stream (using Web Audio APIs).
 
-- [ZerothBase](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-base)
-- [ZerothMic](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-mic)
-- [ZerothFile](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-file)
+* [ZerothBase](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-base)
+* [ZerothMic](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-mic)
+* [ZerothFile](https://github.com/goodatlas/zeroth-js/tree/master/example/zeroth-file)
 
 # Development
-Test
-
-```
-API_KEY=yourapikey npm run test
-```
 
 Build
+
 ```
 npm run build
 ```
