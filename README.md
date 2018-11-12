@@ -96,6 +96,7 @@ This endpoint will return response of our this REST API.
     <b>Example</b>
   </summary>
   <p>
+
 If you are using `node.js`, `express` and `axios` , Your code will look like below.
 
 ```js
@@ -138,7 +139,7 @@ finalOnly: false, // Optional(Default: false) If this is 'true', you will get on
 ws: false, // Optional(Default: false) We are using WebSocket Secure (wss). If this is true, we will use 'ws' instead of 'wss'
 debug: true // Optional(Default: false) If this is 'true', you will get all logs from Zeroth.
 }
-​```
+```
 
 Using without server ([Link](#user-content-using-without-server--less-secure-but-simple-way))
 
