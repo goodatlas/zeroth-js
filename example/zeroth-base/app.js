@@ -7,7 +7,6 @@ const channels = 1;
 let zeroth = null;
 let context = null;
 
-const key = document.querySelector('#key');
 const start = document.querySelector('.start');
 const stop = document.querySelector('.stop');
 const transcript = document.querySelector('.transcript');
@@ -31,7 +30,8 @@ const init = () => {
 const onSuccess = stream => {
   start.onclick = () => {
     const params = {
-      key: document.querySelector('#key').value,
+      appId: document.querySelector('#appId').value,
+      appSecret: document.querySelector('#appSecret').value,
       language: document.querySelector('input[name="language"]:checked').value,
       finalOnly: document.querySelector('#finalOnly').checked,
       ws: document.querySelector('#ws').checked,
@@ -66,7 +66,8 @@ const onSuccess = stream => {
 
   file.onclick = () => {
     const params = {
-      key: document.querySelector('#key').value,
+      appId: document.querySelector('#appId').value,
+      appSecret: document.querySelector('#appSecret').value,
       language: document.querySelector('input[name="language"]:checked').value,
       finalOnly: document.querySelector('#finalOnly').checked,
       ws: document.querySelector('#ws').checked,
