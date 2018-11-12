@@ -1,11 +1,44 @@
-
 // TODO : This code was in base.worker.js.
 // Should fix rollup-plugin-webworkify's babel problem
 let debug = () => {};
 class Socket {
   constructor(params, sampleRate) {
-    if (!params || !params.key) {
-      postMessage({ command: 'onerror', error: 'API key missing' });
+    if (!params) {
+      postMessage({ command: 'onerror', error: 'Parameter missing' });
+      return;
+    }
+
+    if (!params.accessToken) {
+      debug("You don't have accessToken. Will use fallback way");
+      if (!params.appSecret) {
+        postMessage({
+          command: 'onerror',
+          error: 'Tried to issue access token, but appSecret is missing'
+        });
+        return;
+      }
+      if (!params.appId) {
+        postMessage({
+          command: 'onerror',
+          error: 'Tried to issue access token, but appId is missing'
+        });
+        return;
+      }
+    }
+
+    if (params.accessToken && params.appId) {
+      postMessage({
+        command: 'onerror',
+        error: "You don't have to use appId if you already have accessToken"
+      });
+      return;
+    }
+
+    if (params.accessToken && params.appSecret) {
+      postMessage({
+        command: 'onerror',
+        error: "You don't have to use appSecret if you already have accessToken"
+      });
       return;
     }
 
@@ -15,26 +48,48 @@ class Socket {
 
     const { language, finalOnly, ws } = config.defaultParams;
     this.params = {
-      key: params.key,
       language: params.language || language,
       finalOnly: params.finalOnly || finalOnly,
       ws: params.ws || ws
     };
     this.ws = null;
     this.sampleRate = sampleRate || config.sampleRate;
-    this.connect();
+
+    if (!this.params.accessToken) {
+      const { wssServerAddr, apiServerPort } = config;
+
+      fetch(`https://${wssServerAddr}:${apiServerPort}/token`, {
+        headers: {
+          Authorization: `${params.appId}:${params.appSecret}`,
+          'Access-Control-Allow-Origin': '*',
+          'Proxy-Authorization': `${params.appId}:${params.appSecret}`
+        },
+        withCredential: true
+      })
+        .then(response => response.json())
+        .then(response => {
+          this.params['accessToken'] = response['access_token'];
+          this.connect();
+        })
+        .catch(json => {
+          postMessage({
+            command: 'onerror',
+            error: JSON.stringify(json)
+          });
+        });
+    } else {
+      this.params['accessToken'] = params.accessToken;
+      this.connect();
+    }
   }
 
   connect = () => {
-    const {
-      wsServerAddr,
-      wsServerPort,
-      wssServerAddr,
-      wssServerPort,
-    } = config;
-    const { key, language, finalOnly, ws } = this.params;
-    const contentType = `audio/x-raw,+layout=(string)interleaved,+rate=(int)${this.sampleRate},+format=(string)S16LE,+channels=(int)1`;
-    const query = `content-type=${contentType}&key=${key}&language=${language}&final-only=${finalOnly}`;
+    const { wsServerAddr, wsServerPort, wssServerAddr, wssServerPort } = config;
+    const { accessToken, language, finalOnly, ws } = this.params;
+    const contentType = `audio/x-raw,+layout=(string)interleaved,+rate=(int)${
+      this.sampleRate
+    },+format=(string)S16LE,+channels=(int)1`;
+    const query = `access-token=${accessToken}&content-type=${contentType}&language=${language}&final-only=${finalOnly}`;
     const uri = ws
       ? `ws://${wsServerAddr}:${wsServerPort}/client/ws/speech?${query}`
       : `wss://${wssServerAddr}:${wssServerPort}/client/ws/speech?${query}`;

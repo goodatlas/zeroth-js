@@ -40,7 +40,8 @@ const onSuccess = () => {
 
 start.onclick = () => {
   const params = {
-    key: document.querySelector('#key').value,
+    appId: document.querySelector('#appId').value,
+    appSecret: document.querySelector('#appSecret').value,
     language: document.querySelector('input[name="language"]:checked').value,
     finalOnly: document.querySelector('#finalOnly').checked,
     ws: document.querySelector('#ws').checked,

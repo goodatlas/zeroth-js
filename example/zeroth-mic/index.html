@@ -6,8 +6,9 @@
   <div>
     <h2>Zeroth Demo</h2>
     <h3>API Key</h3>
-    <small>You can generate API key on <a href="https://zeroth-console.goodatlas.com" target="_blank">Dashboard</a>. Also You'll get free 5 hours per month!</small>
-    <br/>Your key : <input id="key" type="text" placeholder="YOUR ZEROTH API KEY..."/>
+    <small>You can get appId and appSecret. Please create application on <a href="https://zeroth-console.goodatlas.com" target="_blank">Dashboard</a>. Also You'll get free 5 hours per month!</small>
+    <br/>Your appId : <input id="appId" type="text" placeholder="YOUR APPID..."/>
+    <br/>Your appSecret : <input id="appSecret" type="text" placeholder="YOUR APPSECRET..."/>
     <h3>Setting</h3>
     <label for="language"><code>language :</code></label>
     <input type="radio" name="language" value="kor" id="kor" checked/><label for="kor"><code>Korean</code></label> |
@@ -38,6 +39,7 @@
     </p>
   </div>
   <script src='../../dist/zeroth.min.js'></script>
+
   <script src='app.js'></script>
 </body>
 
