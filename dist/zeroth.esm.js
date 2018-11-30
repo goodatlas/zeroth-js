@@ -108,7 +108,7 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
     var config = {
       wsServerAddr: '13.125.232.133',
       wsServerPort: 3180,
-      wssServerAddr: 'zeroth-test.goodatlas.com',
+      wssServerAddr: 'zeroth.goodatlas.com',
       wssServerPort: 2087,
       apiServerPort: 2053,
       sampleRate: 44100,
@@ -418,7 +418,7 @@ var convertFloat32ToInt16 = function convertFloat32ToInt16(buffer) {
 var config = {
   wsServerAddr: '13.125.232.133',
   wsServerPort: 3180,
-  wssServerAddr: 'zeroth-test.goodatlas.com',
+  wssServerAddr: 'zeroth.goodatlas.com',
   wssServerPort: 2087,
   apiServerPort: 2053,
   sampleRate: 44100,
