@@ -27,7 +27,7 @@
     "@babel/preset-env": "^7.5.4",
     "@babel/runtime": "^7.5.4",
     "babel-eslint": "^10.0.2",
-    "braces": "^3.0.2",
+    "braces": "^2.3.1",
     "eslint": "^6.0.1",
     "eslint-plugin-prettier": "^3.1.0",
     "express": "^4.17.1",
