@@ -7,8 +7,8 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var _classCallCheck = _interopDefault(require('@babel/runtime/helpers/classCallCheck'));
 var _possibleConstructorReturn = _interopDefault(require('@babel/runtime/helpers/possibleConstructorReturn'));
 var _getPrototypeOf = _interopDefault(require('@babel/runtime/helpers/getPrototypeOf'));
-var _inherits = _interopDefault(require('@babel/runtime/helpers/inherits'));
 var _assertThisInitialized = _interopDefault(require('@babel/runtime/helpers/assertThisInitialized'));
+var _inherits = _interopDefault(require('@babel/runtime/helpers/inherits'));
 
 /*! rollup-plugin-webworkify/workerhelper.js v0.0.4 | MIT Licensed | Allex Wang <allex.wxn@gmail.com> */
 var win = window, BlobBuilder = win.BlobBuilder || win.WebKitBlobBuilder || win.MozBlobBuilder || win.MSBlobBuilder, URL = win.URL || win.webkitURL || win.mozURL || win.msURL, SCRIPT_TYPE = "application/javascript", TARGET = "undefined" == typeof Symbol ? "__t" + +new Date() : Symbol(), Worker = win.Worker, nextTick = win.setImmediate || function(e) {
@@ -143,7 +143,7 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
       };
     };
 
-    function _classCallCheck$$1(instance, Constructor) {
+    function _classCallCheck(instance, Constructor) {
       if (!(instance instanceof Constructor)) {
         throw new TypeError('Cannot call a class as a function');
       }
@@ -152,7 +152,7 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
     var Socket = function Socket(params, sampleRate) {
       var _this = this;
 
-      _classCallCheck$$1(this, Socket);
+      _classCallCheck(this, Socket);
 
       _initialiseProps.call(this);
 
@@ -241,7 +241,7 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
           _this.params['accessToken'] = response['access_token'];
 
           _this.connect();
-        }).catch(function (json) {
+        })["catch"](function (json) {
           postMessage({
             command: 'onerror',
             error: JSON.stringify(json)
@@ -491,7 +491,7 @@ function (_ZerothBase) {
       _this.init(_this.context.sampleRate);
 
       _this.onready = function () {
-        var _assertThisInitialize = _assertThisInitialized(_assertThisInitialized(_this)),
+        var _assertThisInitialize = _assertThisInitialized(_this),
             bufferSize = _assertThisInitialize.bufferSize,
             channels = _assertThisInitialize.channels,
             stream = _assertThisInitialize.stream;
@@ -609,5 +609,5 @@ function (_ZerothBase) {
 }(ZerothBase);
 
 exports.ZerothBase = ZerothBase;
-exports.ZerothMic = ZerothMic;
 exports.ZerothFile = ZerothFile;
+exports.ZerothMic = ZerothMic;

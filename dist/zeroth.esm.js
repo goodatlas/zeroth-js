@@ -1,8 +1,8 @@
 import _classCallCheck from '@babel/runtime/helpers/classCallCheck';
 import _possibleConstructorReturn from '@babel/runtime/helpers/possibleConstructorReturn';
 import _getPrototypeOf from '@babel/runtime/helpers/getPrototypeOf';
-import _inherits from '@babel/runtime/helpers/inherits';
 import _assertThisInitialized from '@babel/runtime/helpers/assertThisInitialized';
+import _inherits from '@babel/runtime/helpers/inherits';
 
 /*! rollup-plugin-webworkify/workerhelper.js v0.0.4 | MIT Licensed | Allex Wang <allex.wxn@gmail.com> */
 var win = window, BlobBuilder = win.BlobBuilder || win.WebKitBlobBuilder || win.MozBlobBuilder || win.MSBlobBuilder, URL = win.URL || win.webkitURL || win.mozURL || win.msURL, SCRIPT_TYPE = "application/javascript", TARGET = "undefined" == typeof Symbol ? "__t" + +new Date() : Symbol(), Worker = win.Worker, nextTick = win.setImmediate || function(e) {
@@ -137,7 +137,7 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
       };
     };
 
-    function _classCallCheck$$1(instance, Constructor) {
+    function _classCallCheck(instance, Constructor) {
       if (!(instance instanceof Constructor)) {
         throw new TypeError('Cannot call a class as a function');
       }
@@ -146,7 +146,7 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
     var Socket = function Socket(params, sampleRate) {
       var _this = this;
 
-      _classCallCheck$$1(this, Socket);
+      _classCallCheck(this, Socket);
 
       _initialiseProps.call(this);
 
@@ -235,7 +235,7 @@ var Worker$1 = workerCtor('worker#./base.worker.js', function () {
           _this.params['accessToken'] = response['access_token'];
 
           _this.connect();
-        }).catch(function (json) {
+        })["catch"](function (json) {
           postMessage({
             command: 'onerror',
             error: JSON.stringify(json)
@@ -485,7 +485,7 @@ function (_ZerothBase) {
       _this.init(_this.context.sampleRate);
 
       _this.onready = function () {
-        var _assertThisInitialize = _assertThisInitialized(_assertThisInitialized(_this)),
+        var _assertThisInitialize = _assertThisInitialized(_this),
             bufferSize = _assertThisInitialize.bufferSize,
             channels = _assertThisInitialize.channels,
             stream = _assertThisInitialize.stream;
@@ -602,4 +602,4 @@ function (_ZerothBase) {
   return ZerothFile;
 }(ZerothBase);
 
-export { ZerothBase, ZerothMic, ZerothFile };
+export { ZerothBase, ZerothFile, ZerothMic };
